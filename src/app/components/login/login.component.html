@@ -1,0 +1,15 @@
+<div class="container" style="width: 50%">
+	<h3>{{ 'resources.logIn' | translate }}</h3>
+	<form [formGroup]="loginForm" (ngSubmit)="onsubmit()">
+		<hr />
+		<div class="form-group">
+			<label>{{ 'resources.email' | translate }}</label>
+			<input class="form-control" formControlName="email" />
+		</div>
+		<div class="form-group">
+			<label>{{ 'resources.password' | translate }}</label>
+			<input class="form-control" type="password" formControlName="password" />
+		</div>
+		<button [disabled]='loginForm.invalid' class="btn btn-default">{{ 'resources.signIn' | translate }}</button>
+	</form>
+</div>

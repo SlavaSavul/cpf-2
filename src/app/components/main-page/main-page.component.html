@@ -1,0 +1,44 @@
+<div *ngIf="films.length !== 0; else notfound">
+
+  <div class="container" style="margin-bottom: 5%">
+
+    <div *ngFor="let film of films" class="row" style="margin-bottom: 5px;">
+
+      <div class="col-4">
+        <a routerLink="/film/{{ film.id }}">
+          <img class="card-img-top" style="height: 90%; width: 90%; margin: 4%" src="{{ film.posterURL }}" alt="">
+        </a>
+      </div>
+
+      <div class="col-8">
+        <div>
+          <h3>{{ film.name }}</h3>
+        </div>
+        <br>
+        <div class="card-body" style="max-height: 50%; overflow: auto;">
+          <div style="display: flex">
+            <img src="http://pngimg.com/uploads/star/star_PNG41507.png" style="height: 20px; width:20px;">
+            <p class="card-text" style="margin-left: 5px; font-size: 150%; font-style: italic;">{{ film.imDbRaiting }}</p>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 50%; overflow: auto;">
+          <p class="card-text">{{ film.description }}</p>
+        </div>
+        <br>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <a *ngIf="accountService.isAdmin()" routerLink="/editfilm/{{film.id}}" class="btn btn-primary">{{
+            'resources.edit' | translate }}</a>
+          <button *ngIf="accountService.isAdmin()" class="btn btn-primary" (click)="delete(film.id)">{{
+            'resources.delete' | translate }}</button>
+          <button [ngStyle]="{ 'background': isLiked(film.id) ? 'red' : 'green' }" class="btn btn-primary" (click)="like(film.id)">{{
+            'resources.like' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-paginator [rows]="getLimit()" [totalRecords]="getCount()" (onPageChange)="paginate($event)"></p-paginator>
+</div>
+<ng-template #notfound>
+  <p-progressBar mode="indeterminate"></p-progressBar>
+</ng-template>

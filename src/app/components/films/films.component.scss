@@ -1,0 +1,44 @@
+.ganres {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: stretch;
+    height: 100%;
+    margin-top: 4px;
+}
+
+.genre {
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 120%;
+    font-weight: normal;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    margin: 3px 3px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.genre:hover {
+    background-color: #3a87ca;
+}
+
+.genre-not-selected {
+    background-color: #4f97d6;
+}
+
+.genre-selected {
+    background-color: #1a7cd1;
+}
+
+.error {
+    color: rgb(146, 19, 19);
+}
+
+.error-msg {
+    font-size: 75%;
+    bottom: -2em;
+    color: rgb(146, 19, 19);
+}

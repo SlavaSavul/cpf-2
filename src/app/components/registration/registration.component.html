@@ -1,0 +1,15 @@
+<div class="container" style="width: 50%">
+	<h4>{{ 'resources.registration' | translate }}</h4>
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+		<hr />
+		<div class="form-group">
+			<label>{{ 'resources.email' | translate }}</label>
+			<input class="form-control" formControlName="email" />
+		</div>
+		<div class="form-group">
+			<label>{{ 'resources.password' | translate }}</label>
+			<input class="form-control" type="password" formControlName="password" />
+		</div>
+		<button [disabled]='registerForm.invalid' class="btn btn-default">{{ 'resources.signUp' | translate }}</button>
+	</form>
+</div>

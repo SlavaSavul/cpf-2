@@ -1,0 +1,75 @@
+<DIV class="container">
+  <div>
+    <div style="text-align: center">
+      <h3>{{ film.name }}</h3>
+    </div>
+    <br />
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <div>
+            <img class="card-img-top" style="height: 100%; width: 100%; margin: 2%" src="{{ film.posterURL }}" alt="" />
+          </div>
+        </div>
+        <div class="col-8">
+          <br /><br />
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>{{ "resources.iMDb" | translate }}</td>
+                <td>{{ film.imDbRaiting }}</td>
+              </tr>
+              <tr>
+                <td>{{ "resources.date" | translate }}</td>
+                <td>{{ film.date }}</td>
+              </tr>
+              <tr>
+                <td>{{ "resources.genres" | translate }}</td>
+                <td>{{ getGenres(film) }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="card-body">
+            <p class="card-text">{{ film.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <a routerLink="/" class="btn btn-primary" style="width: 100px">{{
+      "resources.back" | translate
+      }}</a>
+  </div>
+  <br />
+  <hr />
+
+  <p-panel>
+    <p-header>
+      {{ getUserName() }} |
+      <span style="font-size: 60%; text-align: left; margin-left: 5px;">
+        {{ getDate() | date }}
+      </span>
+    </p-header>
+    <textarea #comment ngModel class="form-control" type="area" style="border-radius: 0; width:100%; height: 80px; min-width: 100%; max-width: 100%"></textarea>
+    <p-footer>
+      <button type="button" [disabled]="comment.value == ''" class="btn btn-success" (click)="onSendComment(comment.value)">
+        {{ "resources.send" | translate }}
+      </button>
+    </p-footer>
+  </p-panel>
+
+  <br />
+  <br />
+  <ng-container *ngFor="let comment of film.comments">
+    <p-panel>
+      <p-header>
+        {{ comment.userName }} |
+        <span style="font-size: 60%; text-align: left; margin-left: 5px;">
+          {{ comment.date | date }}
+        </span>
+      </p-header>
+      {{ comment.description }}
+    </p-panel>
+    <br />
+  </ng-container>
+</DIV>

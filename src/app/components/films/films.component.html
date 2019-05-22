@@ -1,0 +1,84 @@
+<div>
+  <div class="container" style="widows: 100vw;">
+    <div class="row">
+      <div class="col-xs-6 col-md-4">
+        <form [formGroup]="form">
+          <label> {{ 'resources.raiting' | translate }}</label>
+          <input formControlName="raiting" placeholder="{{ 'resources.raiting' | translate }}" [ngClass]="{'error': !isRaitingValid()}"
+            class="form-control" type="text" name="raiting" autocomplete="off">
+          <div [hidden]="isRaitingValid()" class="error-msg">{{ 'resources.invalidRange' | translate }}</div>
+
+          <label> {{ 'resources.year' | translate }} </label>
+          <input formControlName="year" placeholder="{{ 'resources.year' | translate }} " [ngClass]="{'error': !isYearValid()}"
+            class="form-control" type="text" name="raitingMin" autocomplete="off">
+          <div [hidden]="isYearValid()" class="error-msg">{{ 'resources.invalidYear' | translate }}</div>
+
+          <label> {{ 'resources.name' | translate }} </label>
+          <input formControlName="name" placeholder=" {{ 'resources.name' | translate }}" class="form-control" type="text"
+            name="name" autocomplete="off">
+
+          <div class="ganres">
+            <div *ngFor="let genre of genres" (click)="selectGenre(genre)" class="genre genre-not-selected disable-text-selection"
+              [ngClass]="{ 'genre-selected': ifgenreSelected(genre) }">
+              <span class="tag tag-default">{{ genre }}</span>
+            </div>
+          </div>
+
+          <br>
+          <button class="form-control" (click)="onSubmit()">{{ 'resources.search' | translate }}</button>
+        </form>
+
+      </div>
+      <div class="col-xs-12 col-md-8">
+
+        <div class="container" style="margin-bottom: 5%" *ngIf="getCount() > 0; else notfound">
+
+          <div *ngFor="let film of films" class="row" style="margin-bottom: 5px;">
+            <div class="col-4">
+              <a routerLink="/film/{{ film.id }}">
+                <img class="card-img-top" style="height: 90%; width: 90%; margin: 4%" src="{{ film.posterURL }}" alt="">
+              </a>
+            </div>
+            <div class="col-8">
+              <div>
+                <h3>{{ film.name }}</h3>
+              </div>
+              <br>
+              <div class="card-body" style="max-height: 50%; overflow: auto;">
+                <div style="display: flex">
+                  <img src="http://pngimg.com/uploads/star/star_PNG41507.png" style="height: 20px; width:20px;">
+                  <p class="card-text" style="margin-left: 5px; font-size: 150%; font-style: italic;">{{
+                    film.imDbRaiting }}</p>
+                </div>
+              </div>
+              <div class="card-body" style="max-height: 200px; width:500px; overflow: auto;">
+                <p class="card-text">{{ film.description }}</p>
+              </div>
+              <br>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <a *ngIf="accountService.isAdmin()" routerLink="/editfilm/{{film.id}}" class="btn btn-primary">{{
+                  'resources.edit' | translate }}</a>
+                <button *ngIf="accountService.isAdmin()" class="btn btn-primary" (click)="delete(film.id)">{{
+                  'resources.delete' | translate }}</button>
+                <button [ngStyle]="{ 'background': isLiked(film.id) ? 'red' : 'green' }" class="btn btn-primary"
+                  (click)="like(film.id)">{{ 'resources.like' | translate }}</button>
+              </div>
+
+            </div>
+          </div>
+          <br>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-paginator *ngIf="getCount() > 0" [style]="{width: '100vw'}" [rows]="getLimit()" [totalRecords]="getCount()"
+    (onPageChange)="paginate($event)">
+  </p-paginator>
+</div>
+
+<ng-template #notfound>
+  <p *ngIf="isLoaded" style="color:#686868; font-size: 170%; margin-left: 30px">
+    {{ 'resources.notFound' | translate }}
+  </p>
+</ng-template>

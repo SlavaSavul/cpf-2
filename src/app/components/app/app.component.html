@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
+          <a style="cursor: pointer;">{{ "resources.home" | translate }}</a>
+        </li>
+        <li routerLinkActive="active" routerLink="/films" [routerLinkActiveOptions]="{ exact: true }">
+          <a style="cursor: pointer;">{{ "resources.films" | translate }}</a>
+        </li>
+        <li *ngIf="accountService.isAdmin()" routerLinkActive="active" routerLink="/createfilm">
+          <a style="cursor: pointer;">{{
+            "resources.createFilm" | translate
+            }}</a>
+        </li>
+        <li *ngIf="accountService.isAuthenticated()" routerLinkActive="active" routerLink="/favorite">
+          <a style="cursor: pointer;">{{ "resources.favorite" | translate }}</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <form class="navbar-form">
+          <div class="form-group">
+            <select id="languageSelect" class="form-control language-select" [value]="currentLanguageCode" (click)="changeLanguage($event)">
+              <option value="en">EN</option>
+              <option value="ru">RU</option>
+            </select>
+          </div>
+        </form>
+        <ng-template [ngIf]="!accountService.isAuthenticated()" [ngIfElse]="loggedOut">
+          <li class="nav-item">
+            <a routerLink="/signup">{{
+              "resources.registration" | translate
+              }}</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/signin">{{ "resources.logIn" | translate }}</a>
+          </li>
+        </ng-template>
+        <ng-template #loggedOut>
+          <li>
+            <a style="cursor: pointer;">{{ accountService.getEmail() }}</a>
+          </li>
+          <li>
+            <a style="cursor: pointer;" (click)="accountService.logout()">{{
+              "resources.logOut" | translate
+              }}</a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
